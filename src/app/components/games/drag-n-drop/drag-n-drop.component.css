@@ -1,0 +1,735 @@
+@charset "utf-8";
+/* CSS Document */
+
+  .mdl-dialog__content{
+            height: 320px;
+    }
+
+.card--activity {
+    width: 100%;
+    height: 40px;
+    /* background: #fff; */
+    height: 550px;
+    min-height:335px;
+    min-width: 335px;
+    border-radius: 10px;
+    margin: 0px auto;
+    overflow: hidden;
+    padding: 20px;
+    overflow: visible;
+    color: #5f6368;
+
+}
+
+.mdl-cell--5-col.definitionSupport{
+    width: calc(55% - 16px) !important;
+}
+
+.mdl-cell--7-col.definitionSupport{
+    width: calc(45% - 16px) !important;
+}
+/*
+.container--vocabActivityWrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: -50px;
+}*/
+
+#container--wordDefinition {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    margin-top: 50px;
+    margin-bottom: 10px;
+    height: 110px;
+}
+
+#container--wordDefinition label {
+    font-size: 24px;
+    line-height: 36px;
+    text-align: left;
+      text-overflow:  ellipsis !important;
+    display:        -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow:       hidden !important;
+}
+
+.container--match {
+    background: #eee;
+    border-radius: 10px;
+    margin: 0px;
+    height: 50px;
+    width: 220px;
+    position: absolute;
+    left: 16px;
+}
+
+.container--vocabWord{
+    background: transparent;
+    border: 2px solid #ccc;
+    font-size: 15px;
+    width: auto;
+    border-radius: 10px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0px;
+    padding: 8px;
+}
+
+.container--vocabWord span{
+    position: absolute;
+    width: 24px;
+    left: 4px;
+    top: 16px;
+    display: none;
+}
+
+.container--vocabWord:hover{
+    cursor: move;
+     border: 2px solid #000;
+}
+
+
+.mdl-grid.container--wordDefinition{
+    border-radius: 4px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    margin: 16px 0px;
+    border: 2px solid #888 ;
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 0px 8px;
+    position: relative;
+}
+
+.container--wordDefinition .mdl-cell.mdl-cell--8-col {
+    margin-left: 250px;
+}
+
+.container--wordDefinition .mdl-typography--subhead{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.label--progress{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #5f6368;
+}
+
+.label--numbers{
+    position: absolute;
+    left: 10px;
+    width: 28px;
+    height: 28px;
+    top: 15px;
+    border-radius: 50%;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #888;
+    display: none;
+}
+
+.button--mcq{
+    background: transparent;
+    color: #000;
+    height: 60px;
+    font-size: 20px;
+    /*font-weight: bold;*/
+    border-radius: 10px;
+    text-transform: none;
+    min-width: 350px;
+    margin: 8px 16px;
+    border: 2px solid #ddd;
+}
+
+.button--mcq:hover{
+    border: 2px solid #000;
+    background: transparent;
+}
+
+.button--mcq img{
+    position: absolute;
+    left: 10px;
+    width: 28px;
+    top: 15px;
+}
+
+.selected{
+    border: 2px solid #3f93d8 !important;
+    background: #e1f0fc !important;
+}
+
+
+
+.mdl-grid.container--wordDefinition.correct,
+.container--vocabWord.correct{
+    border: 2px solid #34ad07 !important;
+    background: #eefee8 ;
+
+}
+
+.mdl-grid.container--wordDefinition.incorrect,
+.container--vocabWord.incorrect{
+    border: 2px solid #cd1e11 !important;
+    background: #fce7e5 ;
+}
+
+.active{
+    border: 2px solid #000 !important;
+}
+
+.skipped{
+    border: 2px solid #888 !important;
+    background: #fafafa !important;
+}
+
+.mdl-textfield.is-disabled .mdl-textfield__input.skipped{
+    color: #888 !important;
+}
+
+.correct.animate{
+     background-color: green;
+    animation: changeColor ease;
+    animation-iteration-count: infinite;
+    animation-duration: .7s;
+    animation-fill-mode: both;
+}
+
+.container--message{
+    text-align: center;
+    margin-top: -10px;
+    height: 60px;
+    width: 100%;
+    margin: -10px 0px 0px 0px
+}
+
+.label--message{
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
+    display: block;
+   /* margin-top: 10px;*/
+}
+
+.messageInc{
+    color: #cd1e11;
+}
+
+.messageSkipped{
+    color: #5f6368;
+}
+
+.messageCorrect{
+    color: #338c03;
+}
+
+
+/* power recall */
+
+.mdl-grid.container--vocabActivity{
+    width: 100%;
+    padding: 0px;
+    margin-top: 20px;
+}
+
+.container--vocabActivity .mdl-cell--4-col,
+.container--vocabActivity .mdl-cell--8-col{
+    margin: 8px 0px;
+}
+
+.container--vocabActivity .mdl-cell--8-col{
+    width: 66.66%;
+
+}
+
+.inputVocabulary{
+    position: relative;
+}
+
+.inputVocabulary .mdl-textfield__input{
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 12px 8px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    background: #f8f8f8;
+    color: #444 !important;
+}
+
+.inputVocabulary.correct .mdl-textfield__input{
+
+    border: 3px solid #34ad07;
+}
+
+.inputVocabulary.incorrect .mdl-textfield__input{
+
+    border: 3px solid #cd1e11;
+}
+
+#container--button button{
+
+
+    color: #3f93d8;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+#container--button{
+    width: 100%;
+    text-align: right;
+}
+
+
+label{
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: move;
+}
+
+.incorrectMsg{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    margin-left: -50%;
+    top: 120px;
+}
+.container--buttons{
+    text-align: center;
+}
+.inputVocabulary.correct .answerIcon{
+    color: #34ad07;
+}
+
+
+.inputVocabulary.incorrect .answerIcon{
+    color: #cd1e11;
+}
+
+
+.answerIcon{
+
+    font-size: 40px;
+    position: absolute;
+    top: 20px;
+    left: -50px;
+}
+
+.inputVocabulary .mdl-textfield__label{
+    font-size: 18px;
+    line-height: 50px;
+    padding-left: 10px;
+    width: auto;
+    color: #888;
+}
+
+.mdl-textfield__input.correct,
+.mdl-textfield__input.incorrect,
+.mdl-textfield__input.skipped{
+    padding-left: 60px;
+}
+
+.inputVocabulary img{
+    width: 28px;
+    position: absolute;
+    top: 50%;
+    margin-top: -14px;
+    left: 20px;
+}
+
+
+.mdl-textfield__input.correct .mdl-textfield__label:after{
+    display: none;
+}
+
+
+.mdl-button[disabled][disabled], .mdl-button.mdl-button--disabled.mdl-button--disabled {
+
+    background-color: #eee;
+}
+
+
+.container--continueBtn{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: auto;
+    height: 60px;
+    padding: 0px 10px;
+    border-top: 1px solid #ccc;
+}
+
+.button--continue{
+  width: 150px;
+  height: 40px;
+  border-radius: 4px;
+  font-size: 20px;
+    background: white;
+}
+
+.container--continueBtn .col1,
+.container--continueBtn .col2{
+    display: flex;
+    align-items: center;
+
+}
+
+.container--continueBtn .col1{
+   justify-content: flex-start;
+}
+
+.container--continueBtn .col1 h5{
+    margin: 0px;
+    font-size: 14px;
+}
+.container--continueBtn .col2{
+   justify-content: flex-end;
+}
+
+
+@media (max-height: 768px){
+
+
+#container--wordDefinition{
+    margin-bottom: 10px;
+}
+
+
+.inputVocabulary .mdl-textfield__input{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+   /* .container--message{
+        margin-top: -40px;
+    }*/
+
+#container--wordDefinition label{
+    font-size: 20px !important;
+}
+
+    .mdl-grid.container--vocabActivity{
+            padding: 0px;
+    }
+
+.container--message label,
+.label--progress{
+    font-size: 16px !important;
+}
+
+    .container--continueBtn{
+        height: 60px;
+    }
+
+.button--continue{
+    height: 38px;
+    font-size: 16px;
+}
+
+.container--continueBtn .col1 h5 {
+    font-size: 16px;
+}
+
+#container--button button{
+    font-size: 16px;
+}
+
+}
+@keyframes changeColor {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+     opacity:.7;
+  }
+
+  100% {
+ opacity: 1;
+  }
+}
+
+
+.mdl-grid.rowlabel{
+     height: 20px;
+     margin-top: 10px;
+}
+
+.button--continue{
+  width: 130px;
+  height: 40px;
+  border-radius: 4px;
+  font-size: 18px;
+    background: white;
+}
+
+.container--continueBtn .col1,
+.container--continueBtn .col2{
+    display: flex;
+    align-items: center;
+
+}
+
+.container--continueBtn .col1{
+   justify-content: flex-start;
+}
+
+.container--continueBtn .col1 h5{
+    margin: 0px;
+    font-size: 18px;
+}
+.container--continueBtn .col2{
+   justify-content: flex-end;
+}
+
+
+@media (max-height: 768px){
+
+.mdl-grid.container--vocabActivity{
+    margin-top: -20px;
+}
+
+#container--wordDefinition{
+    margin-bottom: 10px;
+}
+.mdl-grid.container--wordDefinition{
+    margin: 10px 0px;
+}
+
+.inputVocabulary .mdl-textfield__input{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+   /* .container--message{
+        margin-top: -40px;
+    }*/
+
+#container--wordDefinition label{
+    font-size: 20px !important;
+    line-height: 26px;
+}
+    .card--activity{
+        height: 500px;
+    }
+    .mdl-grid.container--vocabActivity{
+            padding: 0px 8px;
+    }
+
+.container--message label,
+.label--progress,
+.label--message{
+    font-size: 16px !important;
+}
+
+    .container--continueBtn{
+        height: 60px;
+    }
+
+.button--continue{
+    height: 38px;
+    font-size: 16px;
+}
+
+.container--continueBtn .col1 h5 {
+    font-size: 16px;
+}
+
+#container--button button{
+    font-size: 16px;
+}
+
+}
+
+@media (max-width: 1024px){
+
+    #container--wordDefinition label,
+    .container--message label{
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .button--mcq{
+        font-size: 16px;
+         min-width: 250px;
+    }
+
+   /* .container--vocabWord {
+        width: 570px;
+    }*/
+
+    .mdl-cell--5-col{
+        width: calc(40% - 16px) !important;
+    }
+
+    .mdl-cell--7-col{
+        width: calc(60% - 16px) !important;
+    }
+
+
+
+}
+
+@media (max-width: 768px){
+
+    #container--wordDefinition{
+        margin-bottom: 40px;
+    }
+
+    .button--mcq{
+        margin: 20px auto;
+        display: block;
+    }
+    .container--vocabWord {
+        width: auto;
+    }
+
+     /*.mdl-grid.container--vocabActivity{
+        width: 100%;
+    }
+
+    .container--vocabWord{
+        width: 100%;
+    }*/
+
+    .button--mcq{
+        width: 100%;
+        min-width: 100%;
+    }
+
+}
+
+@media (max-width: 730px){
+
+    .card--end-screen {
+			border-radius: 0px !important;
+			padding: 0px !important;
+
+		}
+
+    .page-content{
+        padding: 0px !important;
+    }
+
+
+
+}
+
+@media (max-width: 600px){
+    .page-content-courses{
+        padding: 0px !important;
+    }
+
+    .mdl-grid.rowlabel{
+         margin-top: 30px;
+    }
+
+    .card--activity{
+        padding: 20px 10px;
+    }
+
+    .container--vocabWord{
+        font-size: 14px;
+    }
+
+    .mdl-grid.container--vocabActivity{
+        margin-top: -20px;
+    }
+
+    .mdl-grid.container--wordDefinition{
+        height: 80px;
+        margin: 8px 0px;
+    }
+
+    .container--wordDefinition .mdl-typography--subhead{
+        font-size: 14px;
+        line-height: 20px;
+        -webkit-line-clamp: 3;
+    }
+
+   /* .container--vocabWord{
+        margin: 0px auto;
+    }*/
+    .card--activity{
+        border-radius: 0px;
+        height: 100% !important;
+        overflow-y: auto;
+    }
+    .container--message label, .label--progress, .label--message{
+        font-size: 16px;
+    }
+    .inputVocabulary .mdl-textfield__label{
+        font-size: 16px;
+        line-height: 54px;
+    }
+
+    .inputVocabulary .mdl-textfield__input{
+        font-size: 16px;
+    }
+    #container--button button{
+        font-size: 16px;
+    }
+}
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #888888;
+}
+
+
+/*
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}*/
+
+.overlay{
+    opacity: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+
+  .hide {
+    transition: 0.01s;
+    transform: translateX(-9999px);
+  }
+
+
+
