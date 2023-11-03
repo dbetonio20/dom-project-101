@@ -68,6 +68,15 @@
     left: 16px;
 }
 
+.support-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%; /* Adjust the width as needed */
+  height: 100%; /* This assumes you want it to fill the entire height of the container */
+  background-color: #f0f0f0; /* Background color as an example */
+}
+
 .container--vocabWord{
     background: transparent;
     border: 2px solid #ccc;
@@ -709,14 +718,14 @@ label{
 }
 
 
-/*
-.cdk-drag-placeholder {
+
+/* .cdk-drag-placeholder {
   opacity: 0;
 }
 
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}*/
+} */
 
 .overlay{
     opacity: 0;
@@ -730,6 +739,5 @@ label{
     transition: 0.01s;
     transform: translateX(-9999px);
   }
-
 
 
