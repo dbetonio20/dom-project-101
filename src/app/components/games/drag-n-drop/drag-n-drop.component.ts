@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs';
 import { WordsService } from 'src/app/services/words.service';
 
 @Component({
@@ -8,8 +8,9 @@ import { WordsService } from 'src/app/services/words.service';
     styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent implements OnInit {
-    public words = ['car', 'load', 'key'];
-    public meanings = ['car is a car', 'loading here loading there', 'key of all is the key'];
+    public inputText: string = '';
+    public words: any = [];
+    public meanings: any = [];
     public dropZoneRemoveID: number[] = [1, 2, 3];
     public dragRemovedID: number[] = [1, 2, 3];
     public targetPosition: string[] = ['12.5%', '26.3%', '59px', '54%', '67.8%', '81.7%'];
@@ -20,17 +21,55 @@ export class DragNDropComponent implements OnInit {
     public droppedAnswerId: any;
     public isDraggedInside: boolean = false;
     public disableDrag: boolean = false;
+    public showActivity = false;
 
     constructor(
         private el: ElementRef,
         private wordsService: WordsService
     ) { }
-    droplist = ['drop-list0', 'drop-list1', 'drop-list2'];
     ngOnInit() {
     }
 
-    public showWord() {
-        this.wordsService.getWordData('sample').subscribe(data => console.log(data));
+    public showWord(words: string) {
+              let array = words.split(',').map(item => item.trim());
+
+            this.wordsService.getWordData(array).pipe(
+              finalize(() => this.showActivity = true)
+            ).subscribe(data => {
+                if (data && Array.isArray(data) && data.length > 0) {
+                    for(const wordData of data){
+                        if (wordData.length > 0) {
+                            // Get a random index within the meanings array of the current word data
+                            const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
+
+                            // Push the random definition and word to their respective arrays
+                            this.meanings.push(wordData[0].meanings[randomIndex].definitions[0].definition);
+                            this.words.push(wordData[0].word);
+                        }
+                    }
+                    this.shuffleWords(this.meanings);
+                    this.shuffleWords(this.words);
+                }
+            });
+    }
+
+    public shuffleWords(words : any) {
+
+        let currentIndex = words.length, randomIndex;
+
+        // While there remain elements to shuffle.
+        while (currentIndex != 0) {
+
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [words[currentIndex], words[randomIndex]] = [
+                words[randomIndex], words[currentIndex]];
+        }
+
+        return words;
     }
 
     public moved(event: any, index: any) {
