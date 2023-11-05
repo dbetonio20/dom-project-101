@@ -1,45 +1,50 @@
 <div class="w-3/4 bg-gray-100 p-6 rounded-lg shadow-lg" style="width: 1012px; height: 682px;">
     <div class="container--vocabActivityWrap">
-        <div class="p-4" *ngIf="!showActivity">
-            <div class="relative rounded-lg shadow-xl bg-white">
-              <input
-                class="w-full h-12 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 border rounded-lg focus:outline-none focus:shadow-outline"
-                type="text"
-                placeholder="Enter 5 Words (ex. car, land, kick, roar, cat)"
-                [(ngModel)]="inputText"
-              />
-              <button class="absolute inset-y-0 right-0 px-4 py-2 bg-blue-500 text-white font-semibold rounded-r-lg hover:bg-blue-600 focus:outline-none" (click)="showWord(inputText)">
-                Search
-              </button>
+        <div *ngIf="!showEndScreen">
+            <div class="p-4" *ngIf="!showActivity">
+                <div class="relative rounded-lg shadow-xl bg-white">
+                    <input
+                        class="w-full h-12 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 border rounded-lg focus:outline-none focus:shadow-outline"
+                        type="text" placeholder="Enter 5 Words (ex. car, land, kick, roar, cat)"
+                        [(ngModel)]="inputText" />
+                    <button
+                        class="absolute inset-y-0 right-0 px-4 py-2 bg-blue-500 text-white font-semibold rounded-r-lg hover:bg-blue-600 focus:outline-none"
+                        (click)="showWord(inputText)">
+                        Search
+                    </button>
+                </div>
             </div>
-          </div>
-        <div class="w-full p-4" style="display: flex;justify-content: space-between;" *ngIf="showActivity">
-            <div class="w-5/12" style="margin: 16px 8px;">
-                <div class="mdl-grid"
-                    style="display: flex; position: relative; align-items: center; justify-content: flex-start; z-index:100; margin: 10px"
-                    *ngFor="let word of words; index as i" id="wordDiv{{i}}">
-                    <div cdkDropList [cdkDropListConnectedTo]="droplist">
-                        <div cdkDrag [cdkDragData]="word" (cdkDragMoved)="moved($event,i)"
-                            (cdkDropListDropped)="itemDropped($event)" [cdkDragDisabled]="disableDrag">
-                            <div class="mdl-cell mdl-cell--12-col  container--vocabWord" id="wordStatus">
-                                <span class="material-icons">drag_indicator</span>
-                                <label>{{word}}</label>
+            <div class="w-full p-4" style="display: flex;justify-content: space-between;" *ngIf="showActivity">
+                <div class="w-5/12" style="margin: 16px 8px;">
+                    <div class="mdl-grid"
+                        style="display: flex; position: relative; align-items: center; justify-content: flex-start; z-index:100; margin: 10px"
+                        *ngFor="let word of words; index as i" id="wordDiv{{i}}">
+                        <div cdkDropList [cdkDropListConnectedTo]="droplist">
+                            <div cdkDrag [cdkDragData]="word" (cdkDragMoved)="moved($event,i)"
+                                (cdkDropListDropped)="itemDropped($event)" [cdkDragDisabled]="disableDrag">
+                                <div class="mdl-cell mdl-cell--12-col  container--vocabWord" id="wordStatus">
+                                    <span class="material-icons">drag_indicator</span>
+                                    <label>{{word}}</label>
+                                </div>
+                                <div *cdkDragPlaceholder class="field-placeholder"></div>
                             </div>
-                            <div *cdkDragPlaceholder class="field-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-7/12" style="position: relative;">
+                    <div style="z-index: -1;" cdkDropList cdkDropListSortingDisabled="true" id="drop-list{{i}}"
+                        (cdkDropListDropped)="itemDropped($event)" *ngFor="let meaning of wordsData; index as i">
+                        <div class="mdl-grid container--wordDefinition" id="targetMe">
+                            <div class="mdl-cell mdl-cell--12-col">
+                                <label class="mdl-typography--subhead">{{meaning.meaning}}</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="w-7/12" style="position: relative;">
-                <div style="z-index: -1;" cdkDropList cdkDropListSortingDisabled="true" id="drop-list{{i}}"
-                    (cdkDropListDropped)="itemDropped($event)" *ngFor="let meaning of meanings; index as i">
-                    <div class="mdl-grid container--wordDefinition" id="targetMe">
-                        <div class="mdl-cell mdl-cell--12-col">
-                            <label class="mdl-typography--subhead">{{meaning}}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div *ngIf="showEndScreen">
+            <end-screen></end-screen>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { finalize } from 'rxjs';
+import { GameDataService } from 'src/app/services/game-data.service';
 import { WordsService } from 'src/app/services/words.service';
 
 @Component({
@@ -9,9 +10,10 @@ import { WordsService } from 'src/app/services/words.service';
 })
 export class DragNDropComponent implements OnInit {
     public inputText: string = '';
-    public words: any = [];
-    public meanings: any = [];
-    public dropZoneRemoveID: number[] = [1, 2, 3];
+    public wordsData: any [] = [];
+    public words: string [] = [];
+    public meanings: string [] = [];
+    public dropZoneRemoveID: number[] = [1, 2, 3, 4, 5];
     public dragRemovedID: number[] = [1, 2, 3];
     public targetPosition: string[] = ['12.5%', '26.3%', '59px', '54%', '67.8%', '81.7%'];
     public dragAnswer: string = '';
@@ -22,11 +24,18 @@ export class DragNDropComponent implements OnInit {
     public isDraggedInside: boolean = false;
     public disableDrag: boolean = false;
     public showActivity = false;
+    public numCorrects: number = 0;
+    public numMistakes: number = 0;
+    public showEndScreen: boolean = false;
 
     constructor(
         private el: ElementRef,
-        private wordsService: WordsService
+        private wordsService: WordsService,
+        private gameDataService: GameDataService
     ) { }
+
+    droplist = ['drop-list0', 'drop-list1', 'drop-list2', 'drop-list3', 'drop-list4'];
+
     ngOnInit() {
     }
 
@@ -43,12 +52,16 @@ export class DragNDropComponent implements OnInit {
                             const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
 
                             // Push the random definition and word to their respective arrays
-                            this.meanings.push(wordData[0].meanings[randomIndex].definitions[0].definition);
-                            this.words.push(wordData[0].word);
+                            const word = wordData[0].word;
+                            const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
+                            // this.meanings.push(meaning);
+                            this.words.push(word);
+                            this.wordsData.push({ word: word ,meaning: meaning})
                         }
                     }
-                    this.shuffleWords(this.meanings);
-                    this.shuffleWords(this.words);
+                    console.log(this.wordsData,'wordatra');
+                    this.shuffleWords(this.wordsData);
+                    // this.shuffleWords(this.words);
                 }
             });
     }
@@ -104,12 +117,14 @@ export class DragNDropComponent implements OnInit {
         let dragElement = dragWord.querySelector('#wordStatus');
         let dropElement = dropZone.querySelector('#targetMe');
         let correct;
-        if (this.meanings[this.dropTargetId] != this.dragAnswer) {
+
+        if (this.dragAnswer.trim() == this.wordsData[this.dropTargetId].word.trim()) {
             requestAnimationFrame(function () {
                 dragElement.classList.add('correct');
                 dropElement.classList.add('correct');
             });
             correct = true;
+            this.numCorrects += 1;
             this.isDraggedInside = false;
             this.disableDrag = true;
         } else {
@@ -117,22 +132,21 @@ export class DragNDropComponent implements OnInit {
                 dragElement.classList.add('incorrect');
                 dropElement.classList.add('incorrect');
             });
-            correct = false
+            correct = false;
+            this.numMistakes += 1;
             this.isDraggedInside = false;
-            // this.isCorrect = false;
             this.disableDrag = true;
-
-
         }
-
 
         if (correct) {
             setTimeout(() => {
                 dropZone.remove();
                 dragWord.remove();
+                this.dropZoneRemoveID.pop();
                 this.disableDrag = false;
                 if (this.dropZoneRemoveID.length == 0) {
-
+                  this.gameDataService.setGameScore([{corrects: this.numCorrects, mistakes: this.numMistakes}]);
+                  this.showEndScreen = true;
                 }
             }, 2500);
         }
@@ -141,7 +155,6 @@ export class DragNDropComponent implements OnInit {
                 let drag = '#wordDiv' + this.droppedAnswerId;
                 let removedClass = this.el.nativeElement.querySelector(drag);
                 removedClass.classList.add('mdl-grid');
-
                 dragElement.classList.remove('incorrect');
                 dropElement.classList.remove('incorrect');
                 dragWord.style.position = 'relative';
