@@ -10,9 +10,9 @@ import { WordsService } from 'src/app/services/words.service';
 })
 export class DragNDropComponent implements OnInit {
     public inputText: string = '';
-    public wordsData: any [] = [];
-    public words: string [] = [];
-    public meanings: string [] = [];
+    public wordsData: any[] = [];
+    public words: string[] = [];
+    public meanings: string[] = [];
     public dropZoneRemoveID: number[] = [1, 2, 3, 4, 5];
     public dragRemovedID: number[] = [1, 2, 3];
     public targetPosition: string[] = ['12.5%', '26.3%', '59px', '54%', '67.8%', '81.7%'];
@@ -27,6 +27,12 @@ export class DragNDropComponent implements OnInit {
     public numCorrects: number = 0;
     public numMistakes: number = 0;
     public showEndScreen: boolean = false;
+    public baseScore: number = 100;
+    public timePenaltyFactor: number = 5;
+    public startTime: any;
+    public endTime: any;
+
+
 
     constructor(
         private el: ElementRef,
@@ -40,33 +46,33 @@ export class DragNDropComponent implements OnInit {
     }
 
     public showWord(words: string) {
-              let array = words.split(',').map(item => item.trim());
+        let array = words.split(',').map(item => item.trim());
 
-            this.wordsService.getWordData(array).pipe(
-              finalize(() => this.showActivity = true)
-            ).subscribe(data => {
-                if (data && Array.isArray(data) && data.length > 0) {
-                    for(const wordData of data){
-                        if (wordData.length > 0) {
-                            // Get a random index within the meanings array of the current word data
-                            const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
+        this.wordsService.getWordData(array).pipe(
+            finalize(() => this.showActivity = true)
+        ).subscribe(data => {
+            if (data && Array.isArray(data) && data.length > 0) {
+                for (const wordData of data) {
+                    if (wordData.length > 0) {
+                        // Get a random index within the meanings array of the current word data
+                        const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
 
-                            // Push the random definition and word to their respective arrays
-                            const word = wordData[0].word;
-                            const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
-                            // this.meanings.push(meaning);
-                            this.words.push(word);
-                            this.wordsData.push({ word: word ,meaning: meaning})
-                        }
+                        // Push the random definition and word to their respective arrays
+                        const word = wordData[0].word;
+                        const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
+                        // this.meanings.push(meaning);
+                        this.words.push(word);
+                        this.wordsData.push({ word: word, meaning: meaning })
                     }
-                    console.log(this.wordsData,'wordatra');
-                    this.shuffleWords(this.wordsData);
-                    // this.shuffleWords(this.words);
                 }
-            });
+                console.log(this.wordsData, 'wordatra');
+                this.shuffleWords(this.wordsData);
+                // this.shuffleWords(this.words);
+            }
+        });
     }
 
-    public shuffleWords(words : any) {
+    public shuffleWords(words: any) {
 
         let currentIndex = words.length, randomIndex;
 
@@ -89,7 +95,12 @@ export class DragNDropComponent implements OnInit {
         this.droppedAnswerId = index;
     }
 
+    public dragStarted(event: any) {
+        this.startTime = new Date();
+    }
+
     public itemDropped(event: any) {
+        this.endTime = new Date();
         this.dragAnswer = event.previousContainer.element.nativeElement.innerText;
         this.dropDivZone = `#${event.container.id}`;
         this.dragItem = `#${event.previousContainer.id}`;
@@ -104,13 +115,16 @@ export class DragNDropComponent implements OnInit {
         removedClass.classList.remove('mdl-grid');
         removedClass.style.position = 'unset'
         wordElement.style.top = eventDiv + 'px';
-        wordElement.style.background = 'white'
+        // wordElement.style.background = 'white'
         wordElement.style.zIndex = '1';
         this.checkAnswer();
 
     }
 
     public checkAnswer() {
+        const timeDifference = this.endTime.getTime() - this.startTime.getTime();
+        const timeTakenInSeconds = timeDifference / 1000;
+        console.log('time in seconds: ', timeTakenInSeconds);
         let dragWord = this.el.nativeElement.querySelector(this.dragItem);
         let dropZone = this.el.nativeElement.querySelector(this.dropDivZone);
 
@@ -145,8 +159,11 @@ export class DragNDropComponent implements OnInit {
                 this.dropZoneRemoveID.pop();
                 this.disableDrag = false;
                 if (this.dropZoneRemoveID.length == 0) {
-                  this.gameDataService.setGameScore([{corrects: this.numCorrects, mistakes: this.numMistakes}]);
-                  this.showEndScreen = true;
+                    const totalPlacements = this.numCorrects + this.numMistakes
+                    this.gameDataService.setGameScore([{ corrects: this.numCorrects, mistakes: this.numMistakes }]);
+                    const score = this.calculateScore(this.numCorrects, timeTakenInSeconds, totalPlacements);
+                    console.log('scoree: ',score)
+                    this.showEndScreen = true;
                 }
             }, 2500);
         }
@@ -160,11 +177,20 @@ export class DragNDropComponent implements OnInit {
                 dragWord.style.position = 'relative';
                 dragWord.style.left = 'auto';
                 dragWord.style.top = 'auto';
-                // dragWord.style.right = '0px'
 
                 this.disableDrag = false;
             }, 2500);
         }
+    }
 
+    public calculateScore(correctPlacements: number, timeTakenInSeconds: number, totalPlacements: number,) {
+        // Calculate the time penalty
+        const timePenalty = timeTakenInSeconds * this.timePenaltyFactor;
+
+        // Calculate the total score
+        const totalScore = (correctPlacements / totalPlacements) * this.baseScore - timePenalty;
+
+        // Ensure the score doesn't go below zero
+        return Math.max(totalScore, 0);
     }
 }

@@ -1,4 +1,4 @@
-<div class="w-3/4 bg-gray-100 p-6 rounded-lg shadow-lg" style="width: 1012px; height: 682px;">
+<div class="w-3/4 bg-gray-100 p-6 dark:bg-slate-800 rounded-lg shadow-lg" style="width: 1012px; height: 682px;">
     <div class="container--vocabActivityWrap">
         <div *ngIf="!showEndScreen">
             <div class="p-4" *ngIf="!showActivity">
@@ -20,9 +20,9 @@
                         style="display: flex; position: relative; align-items: center; justify-content: flex-start; z-index:100; margin: 10px"
                         *ngFor="let word of words; index as i" id="wordDiv{{i}}">
                         <div cdkDropList [cdkDropListConnectedTo]="droplist">
-                            <div cdkDrag [cdkDragData]="word" (cdkDragMoved)="moved($event,i)"
+                            <div cdkDrag [cdkDragData]="word" (cdkDragMoved)="moved($event,i)" (cdkDragStarted)="dragStarted($event)"
                                 (cdkDropListDropped)="itemDropped($event)" [cdkDragDisabled]="disableDrag">
-                                <div class="mdl-cell mdl-cell--12-col  container--vocabWord" id="wordStatus">
+                                <div class="mdl-cell mdl-cell--12-col dark:bg-gray-700 dark:text-white container--vocabWord" id="wordStatus">
                                     <span class="material-icons">drag_indicator</span>
                                     <label>{{word}}</label>
                                 </div>
@@ -34,7 +34,7 @@
                 <div class="w-7/12" style="position: relative;">
                     <div style="z-index: -1;" cdkDropList cdkDropListSortingDisabled="true" id="drop-list{{i}}"
                         (cdkDropListDropped)="itemDropped($event)" *ngFor="let meaning of wordsData; index as i">
-                        <div class="mdl-grid container--wordDefinition" id="targetMe">
+                        <div class="mdl-grid container--wordDefinition dark:bg-gray-700 dark:text-white" id="targetMe">
                             <div class="mdl-cell mdl-cell--12-col">
                                 <label class="mdl-typography--subhead">{{meaning.meaning}}</label>
                             </div>

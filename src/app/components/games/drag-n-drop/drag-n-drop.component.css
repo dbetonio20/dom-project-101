@@ -78,7 +78,7 @@
 }
 
 .container--vocabWord{
-    background: transparent;
+    /* background: transparent; */
     border: 2px solid #ccc;
     font-size: 15px;
     width: auto;
@@ -113,7 +113,7 @@
     align-items: center;
     margin: 16px 0px;
     border: 2px solid #888 ;
-    background: #fafafa;
+    /* background: #fafafa; */
     border-radius: 10px;
     padding: 0px 8px;
     position: relative;
@@ -190,14 +190,14 @@
 .mdl-grid.container--wordDefinition.correct,
 .container--vocabWord.correct{
     border: 2px solid #34ad07 !important;
-    background: #eefee8 ;
+    /* background: #eefee8 ; */
 
 }
 
 .mdl-grid.container--wordDefinition.incorrect,
 .container--vocabWord.incorrect{
     border: 2px solid #cd1e11 !important;
-    background: #fce7e5 ;
+    /* background: #fce7e5 ; */
 }
 
 .active{

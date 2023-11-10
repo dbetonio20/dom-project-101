@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { GameDataService } from 'src/app/services/game-data.service';
 
 @Component({
-  selector: 'end-screen',
-  templateUrl: './end-screen.component.html',
-  styleUrls: ['./end-screen.component.css']
+    selector: 'end-screen',
+    templateUrl: './end-screen.component.html',
+    styleUrls: ['./end-screen.component.css'],
+    standalone: true
 })
 export class EndScreenComponent implements OnInit {
   public corrects: number = 0;
