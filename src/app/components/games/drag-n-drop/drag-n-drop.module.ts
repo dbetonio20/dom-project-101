@@ -4,6 +4,7 @@ import { DragNDropComponent } from './drag-n-drop.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { EndScreenComponent } from '../../shared/end-screen/end-screen.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { EndScreenComponent } from '../../shared/end-screen/end-screen.component
     CommonModule,
     DragDropModule,
     FormsModule,
-    EndScreenComponent
+    EndScreenComponent,
+    MatProgressSpinnerModule
   ],
   declarations: [DragNDropComponent],
   exports: [

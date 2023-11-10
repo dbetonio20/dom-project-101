@@ -10,6 +10,7 @@ import { GameDataService } from 'src/app/services/game-data.service';
 export class EndScreenComponent implements OnInit {
   public corrects: number = 0;
   public mistakes: number = 0;
+  public scorePoint: number = 0;
 
   constructor(
     private gameDataService : GameDataService
@@ -19,6 +20,7 @@ export class EndScreenComponent implements OnInit {
     const scoreData = this.gameDataService.getGameScore();
     this.mistakes = scoreData[0].mistakes;
     this.corrects = scoreData[0].corrects;
+    this.scorePoint = scoreData[0].score;
     console.log(scoreData[0]);
   }
 

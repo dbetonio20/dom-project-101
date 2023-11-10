@@ -31,6 +31,7 @@ export class DragNDropComponent implements OnInit {
     public timePenaltyFactor: number = 5;
     public startTime: any;
     public endTime: any;
+    public showLoading: boolean = false;
 
 
 
@@ -50,6 +51,33 @@ export class DragNDropComponent implements OnInit {
 
         this.wordsService.getWordData(array).pipe(
             finalize(() => this.showActivity = true)
+        ).subscribe(data => {
+            if (data && Array.isArray(data) && data.length > 0) {
+                for (const wordData of data) {
+                    if (wordData.length > 0) {
+                        // Get a random index within the meanings array of the current word data
+                        const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
+
+                        // Push the random definition and word to their respective arrays
+                        const word = wordData[0].word;
+                        const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
+                        // this.meanings.push(meaning);
+                        this.words.push(word);
+                        this.wordsData.push({ word: word, meaning: meaning })
+                    }
+                }
+                console.log(this.wordsData, 'wordatra');
+                this.shuffleWords(this.wordsData);
+                // this.shuffleWords(this.words);
+            }
+        });
+    }
+
+    public showRandomWords(){
+        this.showLoading = true
+        this.wordsService.getRandomWordData().pipe(
+            finalize(() => {this.showActivity = true,
+            this.showLoading = false})
         ).subscribe(data => {
             if (data && Array.isArray(data) && data.length > 0) {
                 for (const wordData of data) {
@@ -160,8 +188,8 @@ export class DragNDropComponent implements OnInit {
                 this.disableDrag = false;
                 if (this.dropZoneRemoveID.length == 0) {
                     const totalPlacements = this.numCorrects + this.numMistakes
-                    this.gameDataService.setGameScore([{ corrects: this.numCorrects, mistakes: this.numMistakes }]);
                     const score = this.calculateScore(this.numCorrects, timeTakenInSeconds, totalPlacements);
+                    this.gameDataService.setGameScore([{ corrects: this.numCorrects, mistakes: this.numMistakes, score: score }]);
                     console.log('scoree: ',score)
                     this.showEndScreen = true;
                 }
