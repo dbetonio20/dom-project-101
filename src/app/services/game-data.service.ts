@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GameParentComponent } from '../components/games/game-parent/game-parent.component';
 
 @Injectable({
     providedIn: 'root'

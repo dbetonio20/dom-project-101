@@ -6,6 +6,12 @@ import { AppComponent } from './app.component';
 import { DragNDropModule } from './components/games/drag-n-drop/drag-n-drop.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth'
+import { environment } from './environments/environment';
+import { SigninModule } from './components/pages/signin/signin.module';
+import { SpellMeModule } from './components/games/spell-me/spell-me.module';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +22,11 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     DragNDropModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    SigninModule,
+    SpellMeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

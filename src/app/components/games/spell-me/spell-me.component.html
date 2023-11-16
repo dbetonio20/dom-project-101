@@ -1,0 +1,15 @@
+<div class="w-3/4 bg-gray-100 p-6 dark:bg-slate-800 rounded-lg shadow-lg" style="width: 1012px; height: 682px;">
+    <div *ngIf="!wordsService.hasWordData()">
+        <add-words></add-words>
+    </div>
+    <div  *ngIf="wordsService.hasWordData()">
+        <div class="w-full p-4 flex justify-center items-center dark:bg-gray-800">
+            <p class="text-5xl text-white" (click)="sample()">
+                Hear It: <mat-icon class="play-icon">play_circle_outline</mat-icon>
+            </p>
+        </div>
+        <div class="w-full p-4 flex justify-center items-center">
+            <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        </div>
+</div>

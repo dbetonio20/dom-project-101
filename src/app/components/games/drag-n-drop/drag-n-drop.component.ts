@@ -1,18 +1,15 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, effect } from '@angular/core';
 import { finalize } from 'rxjs';
 import { GameDataService } from 'src/app/services/game-data.service';
 import { WordsService } from 'src/app/services/words.service';
+import { GameParentComponent } from '../game-parent/game-parent.component';
 
 @Component({
     selector: 'drag-n-drop',
     templateUrl: './drag-n-drop.component.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
-export class DragNDropComponent implements OnInit {
-    public inputText: string = '';
-    public wordsData: any[] = [];
-    public words: string[] = [];
-    public meanings: string[] = [];
+export class DragNDropComponent extends GameParentComponent {
     public dropZoneRemoveID: number[] = [1, 2, 3, 4, 5];
     public dragRemovedID: number[] = [1, 2, 3];
     public targetPosition: string[] = ['12.5%', '26.3%', '59px', '54%', '67.8%', '81.7%'];
@@ -31,92 +28,57 @@ export class DragNDropComponent implements OnInit {
     public timePenaltyFactor: number = 5;
     public startTime: any;
     public endTime: any;
-    public showLoading: boolean = false;
 
 
 
     constructor(
         private el: ElementRef,
-        private wordsService: WordsService,
+        public wordsService: WordsService,
         private gameDataService: GameDataService
-    ) { }
+    ) {
+      super()
+      effect(() => {
+        if(this.wordsService.hasWordData() == true){
+          console.log(this.wordsService.getGameWordsData());
+          this.wordsData = this.wordsService.getGameWordsData()[0].wordData;
+          this.words = this.wordsService.getGameWordsData()[0].words;
+        }
+      });
+    }
 
     droplist = ['drop-list0', 'drop-list1', 'drop-list2', 'drop-list3', 'drop-list4'];
 
-    ngOnInit() {
-    }
 
-    public showWord(words: string) {
-        let array = words.split(',').map(item => item.trim());
 
-        this.wordsService.getWordData(array).pipe(
-            finalize(() => this.showActivity = true)
-        ).subscribe(data => {
-            if (data && Array.isArray(data) && data.length > 0) {
-                for (const wordData of data) {
-                    if (wordData.length > 0) {
-                        // Get a random index within the meanings array of the current word data
-                        const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
-
-                        // Push the random definition and word to their respective arrays
-                        const word = wordData[0].word;
-                        const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
-                        // this.meanings.push(meaning);
-                        this.words.push(word);
-                        this.wordsData.push({ word: word, meaning: meaning })
-                    }
-                }
-                console.log(this.wordsData, 'wordatra');
-                this.shuffleWords(this.wordsData);
-                // this.shuffleWords(this.words);
-            }
-        });
-    }
 
     public showRandomWords(){
-        this.showLoading = true
-        this.wordsService.getRandomWordData().pipe(
-            finalize(() => {this.showActivity = true,
-            this.showLoading = false})
-        ).subscribe(data => {
-            if (data && Array.isArray(data) && data.length > 0) {
-                for (const wordData of data) {
-                    if (wordData.length > 0) {
-                        // Get a random index within the meanings array of the current word data
-                        const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
+     const sample =  this.wordsService.getGameWordsData();
+     console.log('sample Data for games: ',sample)
 
-                        // Push the random definition and word to their respective arrays
-                        const word = wordData[0].word;
-                        const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
-                        // this.meanings.push(meaning);
-                        this.words.push(word);
-                        this.wordsData.push({ word: word, meaning: meaning })
-                    }
-                }
-                console.log(this.wordsData, 'wordatra');
-                this.shuffleWords(this.wordsData);
-                // this.shuffleWords(this.words);
-            }
-        });
-    }
+        // this.showLoading = true
+        // this.wordsService.getRandomWordData().pipe(
+        //     finalize(() => {this.showActivity = true,
+        //     this.showLoading = false})
+        // ).subscribe(data => {
+        //     if (data && Array.isArray(data) && data.length > 0) {
+        //         for (const wordData of data) {
+        //             if (wordData.length > 0) {
+        //                 // Get a random index within the meanings array of the current word data
+        //                 const randomIndex = Math.floor(Math.random() * wordData[0].meanings.length);
 
-    public shuffleWords(words: any) {
-
-        let currentIndex = words.length, randomIndex;
-
-        // While there remain elements to shuffle.
-        while (currentIndex != 0) {
-
-            // Pick a remaining element.
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            // And swap it with the current element.
-            [words[currentIndex], words[randomIndex]] = [
-                words[randomIndex], words[currentIndex]];
-        }
-
-        return words;
+        //                 // Push the random definition and word to their respective arrays
+        //                 const word = wordData[0].word;
+        //                 const meaning = wordData[0].meanings[randomIndex].definitions[0].definition;
+        //                 // this.meanings.push(meaning);
+        //                 this.words.push(word);
+        //                 this.wordsData.push({ word: word, meaning: meaning })
+        //             }
+        //         }
+        //         console.log(this.wordsData, 'wordatra');
+        //         this.shuffleWords(this.wordsData);
+        //         // this.shuffleWords(this.words);
+        //     }
+        // });
     }
 
     public moved(event: any, index: any) {
