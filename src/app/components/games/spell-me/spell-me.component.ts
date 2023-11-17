@@ -9,6 +9,7 @@ import { GameParentComponent } from '../game-parent/game-parent.component';
 })
 export class SpellMeComponent extends GameParentComponent {
   public items = ['C','A','R']
+  public correct! : boolean;
 
   constructor(public wordsService: WordsService) {
     super()
@@ -25,10 +26,19 @@ export class SpellMeComponent extends GameParentComponent {
 
 
   sample(){
-    const textToPlay = this.wordsData[0].word + ' '+ this.wordsData[0].meaning;
+    const textToPlay = this.wordsData[0].word + '       '+ this.wordsData[0].meaning;
     const synth = speechSynthesis;
     const utterThis = new SpeechSynthesisUtterance(textToPlay);
 
     synth.speak(utterThis)
+  }
+
+  onEnterPressed(event: any): void {
+    const ample = event.target.value;
+    if(ample == this.wordsData[0].word){
+      this.correct = true;
+    }else {
+      this.correct = false
+    }
   }
 }

@@ -1,0 +1,6 @@
+<p>
+  action-to-speech works!
+</p>
+
+<webcam [height]="480" [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+<button (click)="captureImage()">Capture Image</button>

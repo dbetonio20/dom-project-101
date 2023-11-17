@@ -39,6 +39,7 @@ export class AddWordsComponent extends GameParentComponent {
                     // this.meanings.push(meaning);
                     this.words.push(word);
                     this.wordsData.push({ word: word, meaning: meaning })
+                    this.wordsService.setGameWordsData({wordData: this.wordsData, words: this.words});
                 }
             }
             console.log(this.wordsData, 'wordatra');

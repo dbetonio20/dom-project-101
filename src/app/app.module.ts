@@ -11,6 +11,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { environment } from './environments/environment';
 import { SigninModule } from './components/pages/signin/signin.module';
 import { SpellMeModule } from './components/games/spell-me/spell-me.module';
+import { ActionToSpeechComponent } from './components/random/action-to-speech/action-to-speech.component';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { SpellMeModule } from './components/games/spell-me/spell-me.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     SigninModule,
-    SpellMeModule
+    SpellMeModule,
+    ActionToSpeechComponent
+
   ],
   providers: [],
   bootstrap: [AppComponent]
